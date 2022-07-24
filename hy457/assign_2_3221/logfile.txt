@@ -1,0 +1,48 @@
+UID	file_name	date		time		type	action_denied	fingerprint
+1000	test.txt	04/05/18	17:44:30	0	0		bfb48ace
+
+UID	file_name	date		time		type	action_denied	fingerprint
+1000	test.txt	04/05/18	17:44:30	1	0		bfb482cd
+UID	file_name	date		time		type	action_denied	fingerprint
+1000	fileno0.txt	04/08/18	18:24:12	0	0		bfdb22ce
+
+UID	file_name	date		time		type	action_denied	fingerprint
+1000	fileno0.txt	04/08/18	18:24:12	1	0		bfdb1acd
+UID	file_name	date		time		type	action_denied	fingerprint
+1000	fileno0.txt	04/08/18	18:34:05	0	0		bfdcdd0e
+
+UID	file_name	date		time		type	action_denied	fingerprint
+1000	fileno0.txt	04/08/18	18:34:05	1	1		bfdcd50d
+UID	file_name	date		time		type	action_denied	fingerprint
+1000	/etc/group	09/04/2018	01:55:06 μμ	0	0		bfe4934e
+UID	file_name	date		time		type	action_denied	fingerprint
+1000	/etc/group	09/04/2018	01:55:40 μμ	0	0		bfe5ceae
+UID	file_name	date		time		type	action_denied	fingerprint
+1000	fileno0.txt	04/09/18	13:56:09	0	1		bf93583e
+
+UID	file_name	date		time		type	action_denied	fingerprint
+1000	fileno0.txt	04/09/18	13:56:09	1	1		bf93503d
+UID	file_name	date		time		type	action_denied	fingerprint
+1000	fileno0.txt	04/09/18	13:56:26	0	0		bfc3536e
+
+UID	file_name	date		time		type	action_denied	fingerprint
+1000	fileno0.txt	04/09/18	13:56:26	1	1		bfc34b6d
+UID	file_name	date		time		type	action_denied	fingerprint
+1000	fileno0.txt	04/09/18	14:22:09	0	1		bfca02ee
+
+UID	file_name	date		time		type	action_denied	fingerprint
+1000	fileno0.txt	04/09/18	14:22:09	1	0		bfc9faed
+UID	file_name	date		time		type	action_denied	fingerprint
+27273	fileno0.txt	04/09/18	22:28:28	0	1		bfe5fb42
+
+UID	file_name	date		time		type	action_denied	fingerprint
+27273	fileno0.txt	04/09/18	22:28:28	1	0		bfe5f731
+UID	file_name	date		time		type	action_denied	fingerprint
+27273	fileno0.txt	05/22/18	16:34:23	0	0		bf87b592
+
+UID	file_name	date		time		type	action_denied	fingerprint
+27273	fileno0.txt	05/22/18	16:34:23	1	0		bf87b181
+UID	file_name	date		time		type	action_denied	fingerprint
+27273	fileno0.txt	05/22/18	16:35:21	0	0		bf906052
+UID	file_name	date		time		type	action_denied	fingerprint
+27273	fileno1.txt	05/22/18	16:35:21	0	1		bf906052
