@@ -1,0 +1,5 @@
+/home/ugrads/class13/csd3221/antegeia/build/test/CMakeFiles/bandwidth_test.dir
+/home/ugrads/class13/csd3221/antegeia/build/lib/CMakeFiles/microtcp.dir
+/home/ugrads/class13/csd3221/antegeia/build/test/CMakeFiles/test_microtcp_client.dir
+/home/ugrads/class13/csd3221/antegeia/build/test/CMakeFiles/test_microtcp_server.dir
+/home/ugrads/class13/csd3221/antegeia/build/CMakeFiles/uninstall.dir

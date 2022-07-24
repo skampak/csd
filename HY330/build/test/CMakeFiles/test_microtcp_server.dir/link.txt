@@ -1,0 +1,1 @@
+/usr/bin/cc  -g    CMakeFiles/test_microtcp_server.dir/test_microtcp_server.c.o  -o test_microtcp_server -rdynamic ../lib/libmicrotcp.so -Wl,-rpath,/home/ugrads/class13/csd3221/antegeia/build/lib 

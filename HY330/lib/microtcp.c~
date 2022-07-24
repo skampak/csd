@@ -1,0 +1,175 @@
+
+#include "microtcp.h"
+#include "crc32.h"
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+int crc1,crc2,crc3;
+microtcp_sock_t
+microtcp_socket(int domain, int type, int protocol)
+{
+	microtcp_sock_t udps;
+	udps.sd=socket(domain,type,protocol);
+	if (udps.sd == -1) {
+		perror(" opening UDP socket " );
+		
+	}
+	udps.state=UNKNOWN;
+	udps.init_win_size=0;
+	udps.curr_win_size=0;
+	udps.max_win_size=0;
+	
+	return udps;
+	/* Your code here */
+}
+
+int
+microtcp_bind(microtcp_sock_t socket, const struct sockaddr *address,
+              socklen_t address_len)
+{
+
+	int x=bind(socket.sd,(struct sockaddr*)address,address_len);
+	if(x==-1){
+		perror("udp bind");
+		
+		
+	}
+	return x;
+	
+}
+
+microtcp_sock_t
+microtcp_connect(microtcp_sock_t socket, const struct sockaddr *address,
+                 socklen_t address_len)
+{
+	/* Your code here */
+	
+	microtcp_header_t *h=malloc(sizeof(microtcp_header_t));
+	microtcp_header_t *h2=malloc(sizeof(microtcp_header_t));
+	h->control=pow(2,14);
+	h->seq_number=htonl(random());
+	h->ack_number=0;
+	h->checksum=0;
+/*nt crc=0;*/
+        crc1=crc32(&h,sizeof(h));
+	h->checksum=crc1;
+	if(sendto(socket.sd,&h,sizeof(h),0,address,address_len)==-1){
+		perror("connect");
+	}
+	 
+	microtcp_header_t *buff=malloc(sizeof(microtcp_header_t));
+	if(recvfrom(socket.sd,&buff,sizeof(buff),0,&address,&address_len)==-1){
+		printf("received");
+	}
+	
+	
+	
+	h2->control=pow(2,12);
+	h2->seq_number=buff->seq_number+1;
+	h2->ack_number=cseqnum+1;
+	h2->checksum=0;
+/*nt crc2=0;*/
+        crc2=crc32(&h2,sizeof(h2));
+	h2->checksum=crc2;
+	sendto(socket.sd,&h2,sizeof(h2),0,address,address_len);
+	socket.state=ESTABLISHED;
+	return socket;
+  }
+
+
+microtcp_sock_t
+microtcp_accept(microtcp_sock_t socket, struct sockaddr *address,
+                 socklen_t address_len)
+				 
+{   
+    
+	microtcp_header_t *buff1=malloc(sizeof(microtcp_header_t));
+        microtcp_header_t *h3=malloc(sizeof(microtcp_header_t));
+	
+	    if(recvfrom(socket.sd,&buff1,sizeof(buff1),0,address,address_len)==-1){
+			printf("recieved");
+		}
+	
+     
+	uint32_t clientseq=buff1->seq_number;
+	
+
+	h3->seq_number=htonl(rand());
+	h3->ack_number=htonl(clientseq+1);
+	h3->control=pow(2,14)+pow(2,12);
+	h3->window=0;
+	
+	h3->checksum=0;
+/*nt crc3=0;*/
+  crc3=crc32(&h3,sizeof(h3));
+	h3->checksum=crc3;
+	sendto(socket.sd,&h3,sizeof(h3),0,address,address_len);
+	
+	
+	microtcp_header_t *buff2=malloc(sizeof(microtcp_header_t));
+	    if(recvfrom(socket.sd,&buff2,sizeof(buff2),0,address,address_len)==-1){
+			printf("recieved");
+		}
+    if(buff2->seq_number==clientseq+1)
+		socket.state=ESTABLISHED;
+	
+    
+	return socket;
+}
+
+microtcp_sock_t
+microtcp_shutdown(microtcp_sock_t socket, int how)
+{
+	/* Your code here */
+	
+		microtcp_header_t *sck=malloc(sizeof(microtcp_header_t));
+		microtcp_header_t *sck2=malloc(sizeof(microtcp_header_t));
+		microtcp_header_t *buff3=malloc(sizeof(microtcp_header_t));
+	    microtcp_header_t *buff4=malloc(sizeof(microtcp_header_t));
+		
+		microtcp_header_t *sck3=malloc(sizeof(microtcp_header_t));
+		microtcp_header_t *sck4=malloc(sizeof(microtcp_header_t));
+		
+	    microtcp_header_t *buff6=malloc(sizeof(microtcp_header_t));
+		
+     if(how==1){
+	   sck->control=pow(2,12)+pow(2,15);
+	   sck->seq_number=htonl(rand());
+	   sck->ack_number=0;
+	   sendto(socket.sd,&sck,sizeof(sck),0,socket.addresscl,sizeof(socket.addresscl));
+	   
+	    int tmps=sck->seq_number+1;
+	    recvfrom(socket.sd,&buff3,sizeof(buff3),0,socket.addresscl,sizeof(socket.addresscl));
+		buff3->seq_number=ntohl(buff3->seq_number);
+	    socket.state=CLOSING_BY_HOST;
+	     
+	     recvfrom(socket.sd,&buff4,sizeof(buff4),0,socket.addresscl,sizeof(socket.addresscl));
+	     
+	     int tmph=buff4->seq_number;
+	     sck2->ack_number=htonl(tmph+1);
+		 sck2->control=htonl(pow(2,12));
+		 sck2->seq_number=htonl(sck->seq_number+1);
+	     	sendto(socket.sd,&sck2,sizeof(sck2),0,&socket.addresscl,sizeof(socket.addresscl));
+	     	
+	 }else{
+		 sck3->seq_number=0;
+		 sck3->ack_number=htonl(how+1);
+		 sck3->control=htonl(pow(2,12));
+		 sendto(socket.sd,&sck3,sizeof(sck3),0,socket.addresssrv,sizeof(socket.addresssrv));
+		 
+		 sck4->seq_number=htonl(rand());
+		 sck4->ack_number=0;
+		 sck4->control=htonl((pow(2,15)+pow(2,12)));
+		 sendto(socket.sd,&sck4,sizeof(sck4),0,socket.addresssrv,sizeof(socket.addresssrv));
+		 
+		 recvfrom(socket.sd,&buff6,sizeof(buff6),0,socket.addresssrv,sizeof(socket.addresssrv));
+		 /*0buff6->seq_number=(ntohl)buff6->seq_number;*/
+		 
+		 
+	 }
+	    socket.state=CLOSED;
+	     return socket;
+	
+}
+
+
